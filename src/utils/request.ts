@@ -25,7 +25,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(res => {
    // 后台约定，响应成功，但是code不是10000，是业务逻辑失败
    if (res.data?.code !== 10000) {
-      showToast({ 'type': 'fail', 'message': '业务失败' })
+      showToast({ 'type': 'fail', 'message': res.data.message || '业务失败' })
       return Promise.reject(res.data)
    }
    // 业务逻辑成功，返回响应数据，作为 axios 成功的结果
