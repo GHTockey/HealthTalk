@@ -1,17 +1,12 @@
 <template>
   <div>
-    <VantBtn :type="'primary'">btn</VantBtn>
-    <a href="#">111</a>
+    <router-view></router-view>
+    <van-button :type="'primary'">123</van-button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Button as VantBtn } from "vant";
 
 </script>
 
-<style>
-a {
-  color: var(--cp-primary);
-}
-</style>
+<style></style>
