@@ -1,11 +1,12 @@
-<script setup lang="ts">
-import { mobileRules, passwordRules } from "@/utils/rules";
-import navBar from "@/components/navBar.vue";
+<script lang="ts" setup>
+import { mobileRules, passwordRules, codeRules } from "@/utils/rules";
+import NavBar from "@/components/navBar.vue";
 import { useRouter, useRoute } from "vue-router";
 import { ref } from "vue";
-import { showToast } from "vant";
-import { loginByPwd } from "@/api/user";
+import { showToast, type FormInstance } from "vant";
+import { loginByPwd, sendMobileCode } from "@/api/user";
 import { useUserStore } from "@/stores";
+import { onUnmounted } from "vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -13,7 +14,12 @@ const userStore = useUserStore();
 
 const mobile = ref<string>('13230000014');
 const password = ref<string>('abc12345');
-const checkAgree = ref(false);
+const checkAgree = ref<boolean>(true);
+const isPwd = ref<boolean>(true);
+const code = ref<string>();
+const time = ref<number>(0);
+const form = ref<FormInstance>();
+let timeId: number;
 
 // 表单提交
 async function login() {
@@ -22,26 +28,51 @@ async function login() {
    let res = await loginByPwd(mobile.value, password.value);
    userStore.setUser(res.data); // 存下用户信息
    router.push((<string>route.query.returnUrl) || '/user');
-   showToast({'type':'success','message':'登录成功'});
-}
+   showToast({ 'type': 'success', 'message': '登录成功' });
+};
 
+// 发送
+async function send() {
+   if (time.value > 0) return
+   await form.value?.validate('mobile')
+   await sendMobileCode(mobile.value, 'login')
+   showToast({ 'type': 'success', 'message': '发送成功' })
+   time.value = 60
+   window.clearInterval(timeId)
+   timeId = window.setInterval(() => {
+      time.value--
+      if (time.value <= 0) window.clearInterval(timeId)
+   }, 1000)
+};
+// 组件卸载关闭定时器
+onUnmounted(() => {
+   window.clearInterval(timeId)
+})
 </script>
 
 <template>
    <div class="login-page">
-      <navBar right-text="注册" @click-right="router.push('/register')"></navBar>
+      <NavBar right-text="注册" @click-right="router.push('/register')"></NavBar>
       <!-- 头部 -->
       <div class="login-head">
-         <h3>密码登录</h3>
-         <a href="javascript:;">
-            <span>短信验证码登录</span>
+         <h3>{{ isPwd ? '密码登录' : '短信验证码登录' }}</h3>
+         <a href="javascript:;" @click="isPwd = !isPwd">
+            <span>{{ !isPwd ? '密码登录' : '短信验证码登录' }}</span>
             <van-icon name="arrow"></van-icon>
          </a>
       </div>
+
       <!-- 表单 -->
-      <van-form autocomplete="off" @submit="login">
-         <van-field placeholder="请输入手机号" type="tel" v-model="mobile" :rules="mobileRules"></van-field>
-         <van-field placeholder="请输入密码" type="password" v-model="password" :rules="passwordRules"></van-field>
+      <van-form autocomplete="off" @submit="login" ref="form">
+         <van-field placeholder="请输入手机号" name="mobile" type="tel" v-model="mobile" :rules="mobileRules"></van-field>
+         <van-field v-if="isPwd" placeholder="请输入密码" type="password" v-model="password" :rules="passwordRules"></van-field>
+         <vanField v-else placeholder="短信验证码" v-model="code" :rules="codeRules">
+            <template #button>
+               <span class="btn-send" :class="{ active: time > 0 }" @click="send">
+                  {{ time > 0 ? `${time}s后再次发送` : '发送验证码' }}
+               </span>
+            </template>
+         </vanField>
          <div class="cp-cell">
             <van-checkbox v-model="checkAgree">
                <span>我已同意</span>

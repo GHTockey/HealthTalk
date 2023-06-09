@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [
     vue(),
     Components({
-      dts: false,
+      // dts: false,
       resolvers: [VantResolver({ importStyle: false })]
     })
   ],
