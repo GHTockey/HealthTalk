@@ -1,13 +1,5 @@
 <script lang="ts" setup>
 import CpNavBar from "@/components/CpNavBar.vue";
-import {
-   Icon as vanIcon,
-   Field as vanField,
-   Checkbox as vanCheckbox,
-   Form as vanForm,
-   Button as vanButton,
-   Divider as vanDivider
-} from "vant";
 import { mobileRules, passwordRules, codeRules } from "@/utils/rules";
 import { useRouter, useRoute } from "vue-router";
 import { ref } from "vue";
