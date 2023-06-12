@@ -1,5 +1,5 @@
 {
-  "name": "healthtalk",
+  "name": "wenzhen",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -13,8 +13,8 @@
     "axios": "^1.4.0",
     "pinia": "^2.0.36",
     "pinia-plugin-persistedstate": "^3.1.0",
-    "postcss-px-to-viewport": "^1.1.1",
-    "vant": "^4.4.1",
+    "sass": "^1.63.3",
+    "vant": "^4.5.0",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },
@@ -24,9 +24,7 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/tsconfig": "^0.4.0",
     "npm-run-all": "^4.1.5",
-    "sass": "^1.62.1",
     "typescript": "~5.0.4",
-    "unplugin-vue-components": "^0.25.1",
     "vite": "^4.3.5",
     "vue-tsc": "^1.6.4"
   }

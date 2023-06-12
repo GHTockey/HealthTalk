@@ -1,10 +1,11 @@
 <template>
-   <van-nav-bar :title="title" left-arrow :right-text="rightText" @click-left="onClickLeft"
-      @click-right="emit('clickRight')"></van-nav-bar>
+   <NavBar :title="title" left-arrow :right-text="rightText" @click-left="onClickLeft"
+      @click-right="emit('clickRight')"></NavBar>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { NavBar } from "vant";
 
 defineProps<{ title?: string; rightText?: string }>();
 const emit = defineEmits<{

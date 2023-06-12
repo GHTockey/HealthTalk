@@ -1,10 +1,18 @@
 <script lang="ts" setup>
+import CpNavBar from "@/components/CpNavBar.vue";
+import {
+   Icon as vanIcon,
+   Field as vanField,
+   Checkbox as vanCheckbox,
+   Form as vanForm,
+   Button as vanButton,
+   Divider as vanDivider
+} from "vant";
 import { mobileRules, passwordRules, codeRules } from "@/utils/rules";
-import NavBar from "@/components/navBar.vue";
 import { useRouter, useRoute } from "vue-router";
 import { ref } from "vue";
 import { showToast, type FormInstance } from "vant";
-import { loginByPwd, sendMobileCode } from "@/api/user";
+import { loginByPwd, sendMobileCode, loginByMobile } from "@/api/user";
 import { useUserStore } from "@/stores";
 import { onUnmounted } from "vue";
 
@@ -16,7 +24,7 @@ const mobile = ref<string>('13230000014');
 const password = ref<string>('abc12345');
 const checkAgree = ref<boolean>(true);
 const isPwd = ref<boolean>(true);
-const code = ref<string>();
+const code = ref<string>('');
 const time = ref<number>(0);
 const form = ref<FormInstance>();
 let timeId: number;
@@ -25,7 +33,7 @@ let timeId: number;
 async function login() {
    if (!checkAgree.value) return showToast({ 'type': 'fail', 'message': '请勾选我已同意' })
    // 验证完毕，进行登录
-   let res = await loginByPwd(mobile.value, password.value);
+   let res = isPwd.value ? await loginByPwd(mobile.value, password.value) : await loginByMobile(mobile.value, code.value);
    userStore.setUser(res.data); // 存下用户信息
    router.push((<string>route.query.returnUrl) || '/user');
    showToast({ 'type': 'success', 'message': '登录成功' });
@@ -52,13 +60,13 @@ onUnmounted(() => {
 
 <template>
    <div class="login-page">
-      <NavBar right-text="注册" @click-right="router.push('/register')"></NavBar>
+      <CpNavBar right-text="注册" @click-right="router.push('/register')"></CpNavBar>
       <!-- 头部 -->
       <div class="login-head">
          <h3>{{ isPwd ? '密码登录' : '短信验证码登录' }}</h3>
          <a href="javascript:;" @click="isPwd = !isPwd">
             <span>{{ !isPwd ? '密码登录' : '短信验证码登录' }}</span>
-            <van-icon name="arrow"></van-icon>
+            <vanIcon name="arrow"></vanIcon>
          </a>
       </div>
 
@@ -66,13 +74,13 @@ onUnmounted(() => {
       <van-form autocomplete="off" @submit="login" ref="form">
          <van-field placeholder="请输入手机号" name="mobile" type="tel" v-model="mobile" :rules="mobileRules"></van-field>
          <van-field v-if="isPwd" placeholder="请输入密码" type="password" v-model="password" :rules="passwordRules"></van-field>
-         <vanField v-else placeholder="短信验证码" v-model="code" :rules="codeRules">
+         <van-field v-else placeholder="短信验证码" v-model="code" :rules="codeRules">
             <template #button>
                <span class="btn-send" :class="{ active: time > 0 }" @click="send">
                   {{ time > 0 ? `${time}s后再次发送` : '发送验证码' }}
                </span>
             </template>
-         </vanField>
+         </van-field>
          <div class="cp-cell">
             <van-checkbox v-model="checkAgree">
                <span>我已同意</span>

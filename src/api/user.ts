@@ -10,3 +10,7 @@ export function loginByPwd(mobile: string, password: string) {
 export function sendMobileCode(mobile: string, type: CodeType) {
    return request('/code', 'GET', { mobile, type })
 };
+
+/** 短信登录API */
+export const loginByMobile = (mobile: string, code: string) =>
+   request<User>('/login', 'POST', { mobile, code })
