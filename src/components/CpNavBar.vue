@@ -1,6 +1,6 @@
 <template>
-   <NavBar :title="title" left-arrow :right-text="rightText" @click-left="onClickLeft"
-      @click-right="emit('clickRight')"></NavBar>
+   <NavBar :title="title" left-arrow :right-text="rightText" @click-left="onClickLeft" @click-right="emit('clickRight')">
+   </NavBar>
 </template>
 
 <script setup lang="ts">

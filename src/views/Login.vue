@@ -20,6 +20,8 @@ const code = ref<string>('');
 const time = ref<number>(0);
 const form = ref<FormInstance>();
 let timeId: number;
+// 控制密码是否显示
+const show = ref(false)
 
 // 表单提交
 async function login() {
@@ -61,11 +63,14 @@ onUnmounted(() => {
             <vanIcon name="arrow"></vanIcon>
          </a>
       </div>
-
       <!-- 表单 -->
       <van-form autocomplete="off" @submit="login" ref="form">
          <van-field placeholder="请输入手机号" name="mobile" type="tel" v-model="mobile" :rules="mobileRules"></van-field>
-         <van-field v-if="isPwd" placeholder="请输入密码" type="password" v-model="password" :rules="passwordRules"></van-field>
+         <van-field v-if="isPwd" placeholder="请输入密码" :type="show ? 'text' : 'password'" v-model="password"
+            :rules="passwordRules">
+            <template #button>
+               <cp-icon @click="show = !show" :name="`login-eye-${show ? 'on' : 'off'}`"></cp-icon>
+            </template></van-field>
          <van-field v-else placeholder="短信验证码" v-model="code" :rules="codeRules">
             <template #button>
                <span class="btn-send" :class="{ active: time > 0 }" @click="send">
