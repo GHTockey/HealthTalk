@@ -4,10 +4,20 @@ import type { UserInfo } from "@/types/user";
 import { onMounted, ref } from "vue";
 
 const userInfo = ref<UserInfo>();
+const tools = [
+  { label: '我的问诊', path: '/user/consult' },
+  { label: '我的处方', path: '/' },
+  { label: '家庭档案', path: '/user/patient' },
+  { label: '地址管理', path: '/user/address' },
+  { label: '我的评价', path: '/' },
+  { label: '官方客服', path: '/' },
+  { label: '设置', path: '/' }
+];
+
 
 onMounted(async () => {
   userInfo.value = (await getUserInfo()).data
-})
+});
 </script>
 
 <template>
@@ -71,6 +81,14 @@ onMounted(async () => {
         </van-col>
       </van-row>
     </div>
+    <div class="user-page-group">
+      <h3>快捷工具</h3>
+      <van-cell v-for="(item, i) in tools" :key="item.label" :title="item.label" :to="item.path" is-link :border="false">
+        <template #icon><cp-icon :name="`user-tool-0${i + 1}`" /></template>
+      </van-cell>
+    </div>
+
+
   </div>
 </template>
 
