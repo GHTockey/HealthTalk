@@ -2,6 +2,13 @@
 import { getUserInfo } from "@/api/user";
 import type { UserInfo } from "@/types/user";
 import { onMounted, ref } from "vue";
+import { useUserStore } from "@/stores";
+import { useRouter } from "vue-router";
+import { showConfirmDialog } from "vant";
+import { storeToRefs } from "pinia";
+
+const userStore = useUserStore();
+const router = useRouter();
 
 const userInfo = ref<UserInfo>();
 const tools = [
@@ -14,6 +21,14 @@ const tools = [
   { label: '设置', path: '/' }
 ];
 
+async function logout() {
+  await showConfirmDialog({
+    'title': '提示',
+    'message': '确认要退出优医问诊吗？'
+  });
+  userStore.delUser()
+  router.push('/login')
+};
 
 onMounted(async () => {
   userInfo.value = (await getUserInfo()).data
@@ -86,6 +101,8 @@ onMounted(async () => {
       <van-cell v-for="(item, i) in tools" :key="item.label" :title="item.label" :to="item.path" is-link :border="false">
         <template #icon><cp-icon :name="`user-tool-0${i + 1}`" /></template>
       </van-cell>
+      <a class="logout" href="javascript:;" @click="logout">退出登录</a>
+
     </div>
 
 
