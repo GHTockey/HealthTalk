@@ -33,7 +33,7 @@ router.beforeEach((to) => {
   // 不需要登录的页面，白名单
   const wihteList = ['/login']
   // 如果没有登录且不在白名单内，去登录
-  if (!store.user_info?.token && !wihteList.includes(to.path)) return '/login'
+  if (!store.user?.token && !wihteList.includes(to.path)) return '/login'
   // 否则不做任何处理
 
   NProgress.start()

@@ -15,8 +15,8 @@ const service = axios.create({
 // 请求拦截
 service.interceptors.request.use(config => {
    const userStore = useUserStore();
-   if (userStore.user_info?.token && config.headers) {
-      config.headers['Authorization'] = `Bearer ${userStore.user_info.token}`
+   if (userStore.user?.token && config.headers) {
+      config.headers['Authorization'] = `Bearer ${userStore.user.token}`
    }
    return config
 }, err => Promise.reject(err));

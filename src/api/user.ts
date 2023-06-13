@@ -1,5 +1,5 @@
 import { request } from "@/utils/request";
-import type { User, CodeType } from "@/types/user";
+import type { User, CodeType, UserInfo } from "@/types/user";
 
 /** 密码登录API */
 export function loginByPwd(mobile: string, password: string) {
@@ -13,4 +13,9 @@ export function sendMobileCode(mobile: string, type: CodeType) {
 
 /** 短信登录API */
 export const loginByMobile = (mobile: string, code: string) =>
-   request<User>('/login', 'POST', { mobile, code })
+   request<User>('/login', 'POST', { mobile, code });
+
+/** 获取个人信息API */
+export function getUserInfo() {
+   return request<UserInfo>('/patient/myUser', 'GET')
+};

@@ -3,18 +3,18 @@ import { ref } from "vue";
 import type { User } from "@/types/user";
 
 export const useUserStore = defineStore('user', () => {
-   const user_info = ref<User>(); // 用户信息
+   const user = ref<User>(); // 用户信息
    // 设置用户
-   const setUser = (user: User): void => {
-      user_info.value = user
+   const setUser = (u: User): void => {
+      user.value = u
    };
    // 清除用户
    const delUser = () => {
-      user_info.value = undefined
+      user.value = undefined
    };
 
    return {
-      user_info,
+      user,
       setUser,
       delUser
    }
