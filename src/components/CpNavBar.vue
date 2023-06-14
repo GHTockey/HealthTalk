@@ -7,7 +7,7 @@
 import { useRouter } from "vue-router";
 import { NavBar } from "vant";
 
-defineProps<{ title?: string; rightText?: string }>();
+const props = defineProps<{ title?: string; rightText?: string, back?: () => void }>();
 const emit = defineEmits<{
    (e: 'clickRight'): void
 }>();
@@ -15,6 +15,9 @@ const router = useRouter();
 
 // 回退 (有上一级返回上一级 没有返回主页)
 const onClickLeft = () => {
+   if (props.back) {
+      return props.back()
+   }
    if (window.history.state.back) {
       router.back()
    } else {

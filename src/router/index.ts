@@ -11,18 +11,20 @@ NProgress.configure({
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/login', component: () => import('@/views/Login.vue'), meta: { title: '登录' } },
+    { path: '/login', component: () => import('@/views/Login/LoginPage.vue'), meta: { title: '登录' } },
     {
       path: '/',
       component: () => import('@/views/Layout.vue'),
       redirect: '/home',
       children: [
-        { path: '/home', component: () => import('@/views/Home.vue'), meta: { title: '首页' } },
-        { path: '/article', component: () => import('@/views/Article.vue'), meta: { title: '健康百科' } },
-        { path: '/notify', component: () => import('@/views/Notify.vue'), meta: { title: '消息通知' } },
-        { path: '/user', component: () => import('@/views/User.vue'), meta: { title: '个人中心' } }
+        { path: '/home', component: () => import('@/views/Home/HomePage.vue'), meta: { title: '首页' } },
+        { path: '/article', component: () => import('@/views/Article/ArticlePage.vue'), meta: { title: '健康百科' } },
+        { path: '/notify', component: () => import('@/views/Notify/NotifyPage.vue'), meta: { title: '消息通知' } },
+        { path: '/user', component: () => import('@/views/User/UserPage.vue'), meta: { title: '个人中心' } }
       ]
-    }
+    },
+    { path: '/user/patient', component: () => import('@/views/User/PatientPage.vue'), meta: { title: '家庭档案' } }
+
   ]
 });
 
