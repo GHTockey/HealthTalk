@@ -24,3 +24,13 @@ export function getUserInfo() {
 export function getPatientList() {
    return request<Patient[]>('/patient/mylist')
 };
+
+/** 添加患者信息API */
+export function addPatient(patient: Patient) {
+   return request('/patient/add', 'POST', patient)
+};
+
+/** 编辑患者信息API */
+export function editPatient(patient: Patient) {
+   return request('/patient/update', 'PUT', patient)
+};

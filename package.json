@@ -15,6 +15,7 @@
     "pinia-plugin-persistedstate": "^3.1.0",
     "sass": "^1.63.3",
     "vant": "^4.5.0",
+    "vite-plugin-vue-devtools": "^0.2.0",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },

@@ -6,15 +6,20 @@ defineProps<{
    }[];
    modelValue?: string | number
 }>();
-defineEmits<{
+const emit = defineEmits<{
    (e: 'update:modelValue', value: string | number): void
 }>();
+
+// const toggleItem = (value: string | number) => {
+//    // 触发自定义事件把数据给父组件
+//    emit('update:modelValue', value)
+// }
 </script>
 
 <template>
    <div class="cp-radio-btn">
       <a class="item" :class="{ active: modelValue === item.value }" href="javascript:;" v-for="item in options"
-         :key="item.value">
+         :key="item.value" @click="emit('update:modelValue', item.value)">
          {{ item.label }}
       </a>
    </div>
