@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getPatientList, addPatient, editPatient } from "@/api/user";
+import { getPatientList, addPatient, editPatient, delPatient } from "@/api/user";
 import { computed, onMounted, ref } from "vue";
 import type { Patient } from "@/types/user";
 import { nameRules, idCardRules } from "@/utils/rules";
@@ -60,6 +60,19 @@ async function onSubmit() {
    showSuccessToast(patient.value.id ? '编辑成功' : '添加成功')
 };
 
+async function remove() {
+   if (patient.value.id) {
+      await showConfirmDialog({
+         title: '温馨提示',
+         message: `您确认要删除 ${patient.value.name} 患者信息吗 ？`
+      })
+      await delPatient(patient.value.id)
+      show.value = false
+      list.value = (await getPatientList()).data
+      showSuccessToast('删除成功')
+   }
+}
+
 onMounted(async () => {
    list.value = (await getPatientList()).data
 });
@@ -108,6 +121,9 @@ onMounted(async () => {
                </template>
             </van-field>
          </van-form>
+         <van-action-bar>
+            <van-action-bar-button @click="remove">删除</van-action-bar-button>
+         </van-action-bar>
       </van-popup>
    </div>
 </template>
@@ -123,6 +139,17 @@ onMounted(async () => {
          padding-top: 46px;
          box-sizing: border-box;
       }
+   }
+}
+
+// 底部操作栏
+.van-action-bar {
+   padding: 0 10px;
+   margin-bottom: 10px;
+
+   .van-button {
+      color: var(--cp-price);
+      background-color: var(--cp-bg);
    }
 }
 

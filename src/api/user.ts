@@ -34,3 +34,9 @@ export function addPatient(patient: Patient) {
 export function editPatient(patient: Patient) {
    return request('/patient/update', 'PUT', patient)
 };
+
+/** 删除患者信息API */
+export function delPatient(id: string) {
+   return request(`/patient/del/${id}`, 'DELETE')
+};
+
