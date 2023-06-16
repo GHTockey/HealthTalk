@@ -1,6 +1,21 @@
 import { request } from "@/utils/request";
-import type { KnowledgeParams, KnowledgePage } from "@/types/consult";
+import type {
+   KnowledgeParams,
+   KnowledgePage,
+   DoctorPage,
+   PageParams,
+   FollowType
+} from "@/types/consult";
 
+/** 获取知识页文章API */
 export function getKnowledgePage(params: KnowledgeParams) {
    return request<KnowledgePage>('/patient/home/knowledge', 'GET', params)
+};
+/**  获取推荐医生API */
+export function getDoctorPage(params: PageParams) {
+   return request<DoctorPage>('/home/page/doc', 'GET', params)
+};
+/** 关注与取消关注API */
+export function followOrUnfollow(id: string, type: FollowType = 'doc') {
+   return request('/like', 'POST', { id, type })
 };
