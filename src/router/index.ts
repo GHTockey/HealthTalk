@@ -23,7 +23,11 @@ const router = createRouter({
         { path: '/user', component: () => import('@/views/User/UserPage.vue'), meta: { title: '个人中心' } }
       ]
     },
-    { path: '/user/patient', component: () => import('@/views/User/PatientPage.vue'), meta: { title: '家庭档案' } }
+    { path: '/user/patient', component: () => import('@/views/User/PatientPage.vue'), meta: { title: '家庭档案' } },
+    { path: '/consult/fast', component: () => import('@/views/Consult/ConsultFast.vue'), meta: { title: '极速问诊' } },
+    { path: '/consult/dep', component: () => import('@/views/Consult/ConsultDep.vue'), meta: { title: '选择科室' } }
+
+
 
   ]
 });
