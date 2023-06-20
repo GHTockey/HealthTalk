@@ -4,7 +4,8 @@ import type {
    KnowledgePage,
    DoctorPage,
    PageParams,
-   FollowType
+   FollowType,
+   TopDep
 } from "@/types/consult";
 
 /** 获取知识页文章API */
@@ -18,4 +19,8 @@ export function getDoctorPage(params: PageParams) {
 /** 关注与取消关注API */
 export function followOrUnfollow(id: string, type: FollowType = 'doc') {
    return request('/like', 'POST', { id, type })
+};
+/** 获取科室API */
+export function getAllDep() {
+   return request<TopDep[]>('/dep/all')
 };
