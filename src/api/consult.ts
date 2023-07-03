@@ -5,7 +5,8 @@ import type {
    DoctorPage,
    PageParams,
    FollowType,
-   TopDep
+   TopDep,
+   Image
 } from "@/types/consult";
 
 /** 获取知识页文章API */
@@ -23,4 +24,10 @@ export function followOrUnfollow(id: string, type: FollowType = 'doc') {
 /** 获取科室API */
 export function getAllDep() {
    return request<TopDep[]>('/dep/all')
+};
+/** 图片上传API */
+export function uploadImage(file: File) {
+   const fd = new FormData()
+   fd.append('file', file)
+   return request<Image>('/upload', 'POST', fd)
 };
